@@ -101,32 +101,6 @@ with st.sidebar:
     st.caption("Powered by **Groq AI** 🤖")
     st.caption("llama-3.3-70b-versatile")
 
-    # ── API Key Setup ─────────────────────────────────────────────────────
-    st.markdown("---")
-    import os; from dotenv import load_dotenv; load_dotenv()
-    raw_key = os.environ.get("GROQ_API_KEY", "")
-
-    if not raw_key or not raw_key.startswith("gsk_"):
-        st.warning("⚠️ Groq API key not set")
-        manual_key = st.text_input(
-            "Paste your Groq API key here",
-            type="password",
-            placeholder="gsk_...",
-            help="Get your key from console.groq.com"
-        )
-        if manual_key and manual_key.startswith("gsk_"):
-            os.environ["GROQ_API_KEY"] = manual_key
-            # Reinitialise groq client with new key
-            import importlib, sys
-            if "services.groq_ai" in sys.modules:
-                from groq import Groq
-                import services.groq_ai as g
-                g.client = Groq(api_key=manual_key)
-            st.success(f"✅ Key set: {manual_key[:8]}... — you can now use all AI features")
-        elif manual_key:
-            st.error("Key must start with gsk_")
-    else:
-        st.success(f"🔑 Key loaded: {raw_key[:8]}... ({len(raw_key)} chars)")
 
 # Route to pages
 if page == "home":
